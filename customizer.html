@@ -1,29 +1,26 @@
-<script src='js/three.min.js'></script>
-<script src='js/customizer/filters.js'></script>
-<script src='js/customizer/marchingcubes.js'></script>
-<script src='js/customizer/mmf_object.js'></script>
-<script src='js/customizer/perfect-scrollbar.jquery.min.js'></script>
-<script src='js/customizer/app_controller.js'></script>
-<script src='js/customizer/scenes_controller.js'></script>
-<script src='js/customizer/shapes.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/86/three.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+<script src='js/filters.js'></script>
+<script src='js/marchingcubes.js'></script>
+<script src='js/mmf_object.js'></script>
+<script src='js/perfect-scrollbar.jquery.min.js'></script>
+<script src='js/app_controller.js'></script>
+<script src='js/scenes_controller.js'></script>
+<script src='js/shapes.js'></script>
 <script src="https://fastcdn.org/FileSaver.js/1.1.20151003/FileSaver.min.js"></script>
-<script src='js/customizer/STLBinaryExporter.js'></script>
-<script src='js/customizer/utils.js'></script>
-<script src='js/customizer/data.js'></script>
-<link href="css/customizer/styles.css" rel="stylesheet" type="text/css">
-<link href="css/customizer/perfect-scrollbar.min.css" rel="stylesheet" type="text/css">
+<script src='js/STLBinaryExporter.js'></script>
+<script src='js/data.js'></script>
+<link href="css/styles.css" rel="stylesheet" type="text/css">
+<link href="css/perfect-scrollbar.min.css" rel="stylesheet" type="text/css">
 
 
 <script>
-    var accessToken = "{{access_token}}";
+    var accessToken = "access_token";
     "use strict";
 
-    function unselect_frame_css(frame) {
-        $(frame).css("background-image", "url({{asset('images/customizer/frame.png')}})");
-    }
-
+    function unselect_frame_css(frame) { $(frame).css("background-image", 'url(images/frame.png)');}
     function select_frame_css(frame) {
-        $(frame).css("background-image", "url({{asset('images/customizer/border.png')}})");
+        $(frame).css("background-image", 'url(images/border.png)');
     }
 
     function getParameterByName(name, url) {
@@ -51,25 +48,25 @@
         var target_data = [
             {model: "sphere_sdf",
                 display_name: "sphere",
-                thumbnail: "{{ asset('images/customizer/model01.png') }}"},
+                thumbnail: 'images/model01.png'},
             {model: "half_sphere_sdf",
                 display_name: "half_ellipsoid",
-                thumbnail: "{{ asset('images/customizer/model02.png') }}"},
+                thumbnail: 'images/model02.png'},
             {model: "cube_sdf",
                 display_name: "cube",
-                thumbnail: "{{ asset('images/customizer/model03.png') }}"},
+                thumbnail: 'images/model03.png'},
             {model: "torus_sdf",
                 display_name: "torus",
-                thumbnail: "{{ asset('images/customizer/model04.png') }}"},
+                thumbnail: 'images/model04.png'},
             {model: "vertical_ellipsoid_sdf",
                 display_name: "vertical_ellipsoid",
-                thumbnail: "{{ asset('images/customizer/model05.png') }}"},
+                thumbnail: 'images/model05.png'},
             {model: "horizontal_ellipsoid_sdf",
                 display_name: "horizontal_ellipsoid",
-                thumbnail: "{{ asset('images/customizer/model06.png') }}"},
+                thumbnail: 'images/model06.png'},
             {model: "front_ellipsoid_sdf",
                 display_name: "front_ellipsoid",
-                thumbnail: "{{ asset('images/customizer/model07.png') }}"}
+                thumbnail: 'images/model07.png'}
         ];
 
         var filter_data = [
@@ -195,13 +192,13 @@
     </div>
 
     <div id="content">
-        <form class="reveal-modal" id="upload_form" data-reveal> {#style="display: none;">#}
+        <form class="reveal-modal" id="upload_form" data-reveal style="display: none;">
             <div id="form_header">
                 <div id="upload_text" class="cant_select_text"><h3></h3></div>
                 <div ><a class="close-reveal-modal">×</a></div>
             </div>
             <hr>
-            <fieldset>{#<legend>Edit object informations</legend>#}
+            <fieldset><legend>Edit object informations</legend>
                 <label>Name</label>
                 <input type="text" name="name">
                 <label>Description</label>
@@ -215,7 +212,7 @@
                 <div style="display: block; margin: auto; text-align: center;"><input type="button" value="CONFIRM"><br></div>
             </fieldset>
         </form>
-        {# </div> #}
+        </div>
         <div id="container">
 
             <!-- Screen number 01 -->

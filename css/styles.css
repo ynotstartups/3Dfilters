@@ -83,7 +83,7 @@ body{
 }
 
 #shadow01 {
-    background-image: url(../../images/customizer/shadow01.png);
+    background-image: url(../images/shadow01.png);
     position: absolute;
     width: 100%;
     height: 6px;
@@ -91,7 +91,7 @@ body{
 }
 
 #shadow02 {
-    background-image: url(../../images/customizer/shadow02.png);
+    background-image: url(../images/shadow02.png);
     float: left;
     width: 100%;
     height: 25px;
@@ -99,7 +99,7 @@ body{
 }
 
 #arrow {
-    background-image: url(../../images/customizer/arrow.png);
+    background-image: url(../images/arrow.png);
     margin-left: 50%;
     float: left;
     width: 57px;
@@ -175,7 +175,7 @@ body{
 }
 
 .line {
-    background-image: url(../../images/customizer/line.png);
+    background-image: url(../images/line.png);
     width: 100%;
     height: 3px;
 }
