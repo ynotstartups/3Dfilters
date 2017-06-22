@@ -16,14 +16,12 @@ function CustomizerShapes() {
 
     ImplicitJSScript.prototype.prepare_sdf = function(origin_shape, increment_values) {
 
-        var start = new Date();
-
         var mc_resolution_z = origin_shape.size_z;
         var mc_resolution_y = origin_shape.size_y;
         var mc_resolution_x = origin_shape.size_x;
 
-        this.sdf = new Array(mc_resolution_z*mc_resolution_y*mc_resolution_x);
-        var sdf = this.sdf;
+        this.target_sdf = new Array(mc_resolution_z*mc_resolution_y*mc_resolution_x);
+        var sdf = this.target_sdf;
         var number_of_scene = window.GLOBAL.number_of_scene;
         var mc_bbox_start = window.GLOBAL.mc_bbox_start;
 
@@ -168,8 +166,35 @@ function CustomizerShapes() {
                             origin_x,origin_y,origin_z,sdf);
     };
 
+    ImplicitSdf_3d.prototype.prepare_sdf = function(origin_shape, increment_values) {
+
+        var mc_resolution_z = origin_shape.size_z;
+        var mc_resolution_y = origin_shape.size_y;
+        var mc_resolution_x = origin_shape.size_x;
+
+        this.target_sdf = new Array(mc_resolution_z*mc_resolution_y*mc_resolution_x);
+        var sdf = this.target_sdf;
+        var number_of_scene = window.GLOBAL.number_of_scene;
+        var mc_bbox_start = window.GLOBAL.mc_bbox_start;
+
+        var mc_grid_increment_x = increment_values[0];
+        var mc_grid_increment_y = increment_values[1];
+        var mc_grid_increment_z = increment_values[2];
+
+        var count = 0;
+        for(var k=0, z=mc_bbox_start; k<mc_resolution_z; ++k, z+=mc_grid_increment_z) {
+            for(var j=0, y=mc_bbox_start; j<mc_resolution_y; ++j, y+=mc_grid_increment_y) {
+                for(var i=0, x=mc_bbox_start; i<mc_resolution_x; ++i, x+=mc_grid_increment_x) {
+                    sdf[count] = this.eval_implicit(x,y,z);
+                    count += 1;
+                }
+            }
+        }
+    }
+
     return {
         ImplicitJSScript: ImplicitJSScript,
         ImplicitSdf_3d: ImplicitSdf_3d
     }
+
 }

@@ -117,6 +117,7 @@
             var mmf_id = each_customizer_data.id;
             var mmf_instance = new CustomizerObjectMMF(mmf_id, each_customizer_data);
             customizer.controller.addData("left", mmf_instance);
+            customizer.controller.addData("right", mmf_instance);
         }
         for (var i=0;i<filter_data.length;i++){
             var filter_name = filter_data[i].name;

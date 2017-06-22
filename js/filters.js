@@ -11,7 +11,7 @@ function CustomizerFilters() {
 
         var volumn = filter_shape.sdf.slice();
 
-        var morph_target_sdf = morph_target.sdf;
+        var morph_target_sdf = morph_target.target_sdf.slice();
 
         for (var i=0;i<volumn.length;i++) {
             volumn[i] = volumn[i]*factor_left + morph_target_sdf[i]*factor_right;
@@ -162,7 +162,7 @@ function CustomizerFilters() {
             _obj_loader(lowpoly_url, got_geometry_callback);
         } else if (count === 0) {
             got_geometry_callback(get_marching_cube_geometry(
-                filter_shape.sdf,
+                filter_shape.sdf.slice(),
                 filter_shape.get_mc_resolution())
             );
         } else{
