@@ -414,6 +414,11 @@ function ScenesController(canvas, filters, shapes) {
                 s_callback(JSshape);
                 break;
             default:
+                if (option_value.endsWith('.sdf') && !option_value.includes('myminifactory')) { // local sdf files
+                    option_value = 'http://localhost:8000/stl/' + option_value
+                    console.log(option_value)
+                }
+
                 var requestedModel = controller.init_download_progress();
 
                 var ajax_success = function (data) {

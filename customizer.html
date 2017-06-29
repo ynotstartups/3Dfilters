@@ -69,6 +69,15 @@
                 thumbnail: 'images/model07.png'}
         ];
 
+        $.get("/stl", function (html) {
+            $(html).find('a').each(function (){
+                file_url = $(this).attr('href');
+                if (file_url.endsWith('.sdf')) {
+                    customizer.controller.addData('left', {model: file_url, thumbnail: 'images/model01.png'});
+                }
+            })
+        })
+
         var filter_data = [
             {name: 'morphing', display_name: 'Morphing'},
             {name: 'morphing_and_minecraft', display_name: 'MorphingVoxels'},
@@ -119,6 +128,8 @@
             customizer.controller.addData("left", mmf_instance);
             customizer.controller.addData("right", mmf_instance);
         }
+
+
         for (var i=0;i<filter_data.length;i++){
             var filter_name = filter_data[i].name;
             customizer.controller.addData('filter', filter_name);
