@@ -224,7 +224,7 @@ function ScenesController(canvas, filters, shapes) {
     function rotate_meshes() {
         for (var i=0;i< window.GLOBAL.number_of_scene;i++) {
             if (has_mesh(i)){
-                scenes[i].children[2].rotation.z = Date.now() * 0.001;
+                // scenes[i].children[2].rotation.z = Date.now() * 0.001;
             }
         }
     }
