@@ -74,6 +74,7 @@
                 file_url = $(this).attr('href');
                 if (file_url.endsWith('.sdf')) {
                     customizer.controller.addData('left', {model: file_url, thumbnail: 'images/model01.png'});
+                    customizer.controller.addData('right', {model: file_url, thumbnail: 'images/model01.png'});
                 }
             })
         })
