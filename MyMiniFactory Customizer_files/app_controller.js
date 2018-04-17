@@ -473,7 +473,7 @@ window.App = function (chosenFrame, chosenModel, chosenTarget, chosenFilter) {
                                 .replace('$thumbnail', data.thumbnail);
         }
 
-        $("#inner-"+kind).append(model_thumbnail_div);
+        $("#inner-"+kind).prepend(model_thumbnail_div);
 
         var preview_icon = $("#icons"+thumbnail_index+kind);
 
