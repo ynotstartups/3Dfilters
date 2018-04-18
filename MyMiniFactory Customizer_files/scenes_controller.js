@@ -249,133 +249,141 @@ function ScenesController(canvas) {
      * @returns {undefined}
      */
     function read_selected_option(option_value, s_callback) {
-
         var type = 'rawjscode';
 
         var func, JSshape;
-        switch(option_value) {
-            case "sphere_sdf":
-                func = function (x, y, z) {
-                    return - 1 + (x*x + y*y + z*z);
-                };
-                JSshape = new ImplicitJSScript(func);
-                s_callback(JSshape);
-                break;
-            case "half_sphere_sdf":
-                func = function (x, y, z) {
-                    z = (z + 1)/2;
-                    return - 1 + (x*x + y*y + z*z);
-                };
-                JSshape = new ImplicitJSScript(func);
-                s_callback(JSshape);
-                break;
-            case "cube_sdf":
-                func = function (x, y, z) {
-                    var base_length = 0.5;
-                    var d_x = Math.abs(x) - base_length;
-                    var d_y = Math.abs(y) - base_length;
-                    var d_z = Math.abs(z) - base_length;
-                    return  (Math.min(Math.max(d_x,Math.max(d_y,d_z)),0.0) + ImplicitJSScript.length3(Math.max(d_x,0.0),Math.max(d_y,0.0),Math.max(d_z,0.0)));
-                };
-                JSshape = new ImplicitJSScript(func);
-                s_callback(JSshape);
-                break;
-            case "torus_sdf":
-                func = function (x, y, z) {
-                    var para_outer = 0.4;
-                    var para_inner = 0.2;
-                    var torus_thickness = 0.4;
-                    var q_0 = ImplicitJSScript.length2(x, z) - para_outer;
-                    var q_1 = y;
-                    return - torus_thickness + ImplicitJSScript.length2(q_0 - para_inner, q_1 - para_inner);
-                };
-                JSshape = new ImplicitJSScript(func);
-                s_callback(JSshape);
-                break;
-            case "vertical_ellipsoid_sdf":
-                func = function (x, y, z) {
-                    var r_x = 0.5;
-                    var r_y = 0.5;
-                    var r_z = 1;
-                    return ((ImplicitJSScript.length3(x/r_x, y/r_y, z/r_z) - 1.0) * Math.min(Math.min(0.5,0.5),1.0));
-                };
-                JSshape = new ImplicitJSScript(func);
-                s_callback(JSshape);
-                break;
-            case "horizontal_ellipsoid_sdf":
-                func = function (x, y, z) {
-                    var r_x = 1;
-                    var r_y = 0.5;
-                    var r_z = 0.5;
-                    return (ImplicitJSScript.length3( x/r_x, y/r_y, z/r_z ) - 1.0) * Math.min(Math.min(0.5,0.5),1.0);
-                };
-                JSshape = new ImplicitJSScript(func);
-                s_callback(JSshape);
-                break;
-            case "front_ellipsoid_sdf":
-                func = function (x, y, z) {
-                    var r_x = 0.5;
-                    var r_y = 1;
-                    var r_z = 0.5;
-                    return (ImplicitJSScript.length3( x/r_x, y/r_y, z/r_z ) - 1.0) * Math.min(Math.min(0.5,0.5),1.0);
-                };
-                JSshape = new ImplicitJSScript(func);
-                s_callback(JSshape);
-                break;
-            case "make_fat": // make a horizontal and frontend cone
-                func = function (x, y, z) {
-                    var ratio = [1,1];
-                    var normalize_ratio = [ratio[0]/Math.sqrt(ratio[0]*ratio[0] + ratio[1]*ratio[1]),
-                                    ratio[1]/Math.sqrt(ratio[0]*ratio[0] + ratio[1]*ratio[1])];
+        if ( option_value === "sphere_sdf" ) {
+            func = function (x, y, z) {
+                return - 1 + (x*x + y*y + z*z);
+            };
+            JSshape = new ImplicitJSScript(func);
+            s_callback(JSshape);
+        } else if ( option_value === "half_sphere_sdf" ) {
+            func = function (x, y, z) {
+                z = (z + 1)/2;
+                return - 1 + (x*x + y*y + z*z);
+            };
+            JSshape = new ImplicitJSScript(func);
+            s_callback(JSshape);
+        } else if ( option_value === "cube_sdf" ) {
+            func = function (x, y, z) {
+                var base_length = 0.5;
+                var d_x = Math.abs(x) - base_length;
+                var d_y = Math.abs(y) - base_length;
+                var d_z = Math.abs(z) - base_length;
+                return  (Math.min(Math.max(d_x,Math.max(d_y,d_z)),0.0) + ImplicitJSScript.length3(Math.max(d_x,0.0),Math.max(d_y,0.0),Math.max(d_z,0.0)));
+            };
+            JSshape = new ImplicitJSScript(func);
+            s_callback(JSshape);
+        } else if ( option_value === "torus_sdf" )
+        {
+            func = function (x, y, z) {
+                var para_outer = 0.4;
+                var para_inner = 0.2;
+                var torus_thickness = 0.4;
+                var q_0 = ImplicitJSScript.length2(x, z) - para_outer;
+                var q_1 = y;
+                return - torus_thickness + ImplicitJSScript.length2(q_0 - para_inner, q_1 - para_inner);
+            };
+            JSshape = new ImplicitJSScript(func);
+            s_callback(JSshape);
+        } else if ( option_value === "vertical_ellipsoid_sdf" )
+        {
+            func = function (x, y, z) {
+                var r_x = 0.5;
+                var r_y = 0.5;
+                var r_z = 1;
+                return ((ImplicitJSScript.length3(x/r_x, y/r_y, z/r_z) - 1.0) * Math.min(Math.min(0.5,0.5),1.0));
+            };
+            JSshape = new ImplicitJSScript(func);
+            s_callback(JSshape);
+        } else if ( option_value === "horizontal_ellipsoid_sdf" ) {
+            func = function (x, y, z) {
+                var r_x = 1;
+                var r_y = 0.5;
+                var r_z = 0.5;
+                return (ImplicitJSScript.length3( x/r_x, y/r_y, z/r_z ) - 1.0) * Math.min(Math.min(0.5,0.5),1.0);
+            };
+            JSshape = new ImplicitJSScript(func);
+            s_callback(JSshape);
+        } else if ( option_value === "front_ellipsoid_sdf" )
+        {
+            func = function (x, y, z) {
+                var r_x = 0.5;
+                var r_y = 1;
+                var r_z = 0.5;
+                return (ImplicitJSScript.length3( x/r_x, y/r_y, z/r_z ) - 1.0) * Math.min(Math.min(0.5,0.5),1.0);
+            };
+            JSshape = new ImplicitJSScript(func);
+            s_callback(JSshape);
+        } else if ( option_value === "make_fat") // make a horizontal and frontend con
+        {
+            func = function (x, y, z) {
+                var ratio = [1,1];
+                var normalize_ratio = [ratio[0]/Math.sqrt(ratio[0]*ratio[0] + ratio[1]*ratio[1]),
+                    ratio[1]/Math.sqrt(ratio[0]*ratio[0] + ratio[1]*ratio[1])];
 
-                    z = z - 1;
-                    z = z/2;
-                    x = x/2;
-                    var cone = normalize_ratio[0]*ImplicitJSScript.length2(x, y) +normalize_ratio[1]*z;
+                z = z - 1;
+                z = z/2;
+                x = x/2;
+                var cone = normalize_ratio[0]*ImplicitJSScript.length2(x, y) +normalize_ratio[1]*z;
 
-                    if (x < -0.45) {
-                        return 0.1;
-                    } else if (x > 0.45) {
-                        return 0.1;
-                    } else if (z < -0.99) {
-                        return 0.1;
-                    } else {
-                        return cone;
-                    }
+                if (x < -0.45) {
+                    return 0.1;
+                } else if (x > 0.45) {
+                    return 0.1;
+                } else if (z < -0.99) {
+                    return 0.1;
+                } else {
+                    return cone;
+                }
 
-                };
-                JSshape = new ImplicitJSScript(func);
+            };
+            JSshape = new ImplicitJSScript(func);
+            s_callback(JSshape);
+        } else if ( option_value === "cone_sdf" ) // make a horizontal and frontend con
+        {
+            func = function (x, y, z) {
+                z = z - 1;
+                z = z/2;
+                return 0.707*ImplicitJSScript.length2(x, y) +0.707*z;
+            };
+            JSshape = new ImplicitJSScript(func);
+            s_callback(JSshape);
+        } else if (option_value.sdf !== undefined) {
+            console.log("in Float32Array")
+            JSshape = new ImplicitSdf_3d(
+                option_value.dim_x,
+                option_value.dim_y,
+                option_value.dim_z,
+                option_value.grid_spacing,
+                option_value.origin_x,
+                option_value.origin_y,
+                option_value.origin_z,
+                option_value.sdf
+            )
+            s_callback(JSshape);
+        } else {
+            console.log("in default");
+            var requestedModel = controller.init_download_progress();
+
+            var ajax_success = function (data) {
+                JSshape = ImplicitSdf_3d.make_mp5_from_sdf(data);
                 s_callback(JSshape);
-                break;
-            case "cone_sdf": // make a horizontal and frontend cone
-                func = function (x, y, z) {
-                    z = z - 1;
-                    z = z/2;
-                    return 0.707*ImplicitJSScript.length2(x, y) +0.707*z;
-                };
-                JSshape = new ImplicitJSScript(func);
-                s_callback(JSshape);
-                break;
-            default:
-                var requestedModel = controller.init_download_progress();
+                controller.done_download_progress();
+            };
 
-                var ajax_success = function (data) {
-                    JSshape = ImplicitSdf_3d.make_mp5_from_sdf(data);
-                    s_callback(JSshape);
-                    controller.done_download_progress();
-                };
+            var ajax_error = function (data) {
+            };
 
-                var ajax_error = function (data) {
-                };
+            var ajax_abort = function () {
+            };
 
-                var ajax_abort = function () {
-                };
+            var ajax_progress = function (percentComplete) {
+                controller.set_download_progress(requestedModel, percentComplete);
+            };
 
-                var ajax_progress = function (percentComplete) {
-                    controller.set_download_progress(requestedModel, percentComplete);
-                };
-
-                sdf_download_manager(option_value, ajax_success, ajax_error, ajax_abort, ajax_progress);
+            sdf_download_manager(option_value, ajax_success, ajax_error, ajax_abort, ajax_progress);
         }
     }
 

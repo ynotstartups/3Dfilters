@@ -66,7 +66,14 @@ function ImplicitSdf_3d(size_x,
     this.end_y = this.origin_y + this.grid_size*this.size_y;
     this.end_z = this.origin_z + this.grid_size*this.size_z;
 
-    this.sdf = sdf;
+    const length = sdf.length;
+    const factor = 8/(grid_size*(size_x + size_y + size_z));
+
+    this.sdf = new Float32Array(length);
+    for (let i=0;i<length;i++) {
+        this.sdf[i] = factor * sdf[i];
+    }
+
 }
 
 ImplicitSdf_3d.interpolate = function(x, start, end) {
@@ -156,13 +163,11 @@ ImplicitSdf_3d.make_mp5_from_sdf = function(sdf_string) {
 
     var grid_size = parseFloat(lines[2]);
 
-    var factor = 8/(grid_size*(size_x + size_y + size_z));
-
     var sdf = new Float32Array(lines.length - 1 - 3);;
     //the value start at line 3,  -1 since there is a extra line in sdf file
     for(var i = 3;i < lines.length - 1;i++){
         // sdf.push(parseFloat(lines[i])*factor);
-        sdf[i - 3] = parseFloat(lines[i])*factor;
+        sdf[i - 3] = parseFloat(lines[i]);
     }
     console.timeEnd("parsing time");
 

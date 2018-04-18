@@ -45,31 +45,24 @@ function SDFGen(file, padding, dx) {
         // same hacky way of getting the name like in c++
         let out_bin = Module.FS_readFile(filename.slice(0, filename.length-3)+"sdf");
         // sla should work for binary stl
-        let file = new Blob([out_bin], {type: 'application/sla'});
-        self.postMessage({"blob":file});
+        const buffer = out_bin.buffer;
 
-        // parseSDF(out_bin);
+        // parseSDF for ImplicitSdf_3d
+
+        console.time("parse")
+        const [dim_x, dim_y, dim_z] = new Uint32Array(buffer, 0, 3);
+        const [origin_x, origin_y, origin_z] = new Float32Array(buffer, 3*4, 3);
+        const [grid_spacing] = new Float32Array(buffer, 6*4, 1);
+
+        const sdf = new Float32Array(buffer, 7*4, (buffer.byteLength - 7*4)/4);
+        console.timeEnd("parse")
+
+        // TODO: does it make sense to use transferable list
+        self.postMessage({
+            dim_x, dim_y, dim_z,
+            origin_x, origin_y, origin_z,
+            grid_spacing,
+            sdf
+        });
     }
-}
-
-function parseSDF(bin) {
-    // std::cout << "(ni,nj,nk) are the integer dimensions of the resulting distance field.\n";
-    // std::cout << "(origin_x,origin_y,origin_z) is the 3D position of the grid origin.\n";
-    // std::cout << "<dx> is the grid spacing.\n\n";
-    // std::cout << "<value_n> are the signed distance data values, in ascending order of i, then j, then k.\n";
-    //
-    // all int are unsighed
-    // int int int
-    // float float float
-    // float
-    // lots of floats
-
-    console.time("parse")
-    const buffer = bin.buffer;
-    const dim_x_y_z = new Uint32Array(bin.buffer, 0, 3);
-    const origin_x_y_z = new Float32Array(bin.buffer, 3*4, 3);
-    const grid_spacing = new Float32Array(bin.buffer, 6*4, 1);
-    const sdf = new Float32Array(bin.buffer, 7*4, (bin.byteLength - 7*4)/4);
-    self.postMessage({dim_x_y_z, sdf});
-    console.timeEnd("parse")
 }

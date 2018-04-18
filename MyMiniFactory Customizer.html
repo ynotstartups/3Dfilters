@@ -110,7 +110,23 @@
     SDFGen_worker.onmessage = function(e) {
         console.log("worker on message", e);
         console.log("TODO: addData(left");
-        // controller.addData("left", mmf_instance);
+        console.log(e.data);
+        const data = e.data;
+
+        /* original data
+        {
+            "thumbnail":"",
+            "lowpoly_600_url":"",
+            "lowpoly_300_url":"",
+            "lowpoly_1k_url":"",
+            "model":""
+        }
+        */
+
+        // HACK made the data into an object
+        data.thumbnail = "/images/customizer/model01.png";
+        data.model = data;
+        controller.addData("left", data);
     }
     SDFGen_worker.onerror = function(e) {
         console.log(e);
