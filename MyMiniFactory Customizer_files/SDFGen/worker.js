@@ -9,7 +9,7 @@ self.addEventListener('message', function(e) {
     // }
 // };
 
-self.importScripts("./SDFgen.js");
+self.importScripts("./SDFGen.js");
 
 let last_file_name = undefined;
 

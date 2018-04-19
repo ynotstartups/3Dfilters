@@ -332,7 +332,6 @@ var edgeTable= new Uint32Array([
   , edgeIndex = [ [0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7] ];
 
 return function marching_cubes(data, dims, name="mc") {
-  console.time(name);
   var vertices = []
     , faces = []
     , n = 0
@@ -404,8 +403,6 @@ return function marching_cubes(data, dims, name="mc") {
           faces.push(edges[f[i]], edges[f[i+1]], edges[f[i+2]]);
     }
   }
-
-  console.timeEnd(name);
   return {vertices:vertices, faces:faces};
 };
 })();

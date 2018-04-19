@@ -364,7 +364,6 @@ function ScenesController(canvas) {
             )
             s_callback(JSshape);
         } else {
-            console.log("in default");
             var requestedModel = controller.init_download_progress();
 
             var ajax_success = function (data) {

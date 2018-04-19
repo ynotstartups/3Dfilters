@@ -1,5 +1,4 @@
 self.addEventListener('message', function(e) {
-    console.time("worker_all");
     const volumn = e.data.volumn;
     const mc_resolution = e.data.mc_resolution;
     const cb_count = e.data.cb_count;
@@ -19,7 +18,6 @@ self.addEventListener('message', function(e) {
         verts[i] = v[i];
     }
     self.postMessage({faces, verts, cb_count});
-    console.timeEnd("worker_all");
 });
 
 self.importScripts("marchingcubes.js");

@@ -1,0 +1,14 @@
+#DragDrop {
+    animation: pulse 3s;
+    animation-direction: alternate;
+    animation-iteration-count: 5;
+    background-color: #ff9800ff;
+}
+@keyframes pulse {
+    0% {
+        background-color: #ff98000f;
+    }
+    100% {
+        background-color: #ff9800ff;
+    }
+}

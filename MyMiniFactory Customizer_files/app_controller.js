@@ -356,12 +356,17 @@ window.App = function (chosenFrame, chosenModel, chosenTarget, chosenFilter) {
 
         $(get_preview_class("left")).css("background-image", "url('"+that.model().thumbnail+"')");
         $(get_preview_class("right")).css("background-image", "url('"+that.target().thumbnail+"')");
-        var scroll_position = 8*Math.floor(chosenModel/8)*43; // when refresh, scroll bar is at the level of the selected model
-        $("#scroll-left").scrollTop(scroll_position).perfectScrollbar('update');
+
+        this.update_scroll_left_position();
 
         draw_scene();
         this.init_upload_form();
     };
+
+    this.update_scroll_left_position = function () {
+        var scroll_position = 8*Math.floor(chosenModel/8)*43; // when refresh, scroll bar is at the level of the selected model
+        $("#scroll-left").scrollTop(scroll_position).perfectScrollbar('update');
+    }
 
     this.check_for_login_download = function (){
         check_for_login_func('download');
@@ -424,15 +429,15 @@ window.App = function (chosenFrame, chosenModel, chosenTarget, chosenFilter) {
      *
      * @param {string} kind - 'left'|'right' add to model|target array
      * @param {Object} data - 'left'|'right' data are mmf_object|Object
-     * @returns {undefined}
+     * @returns {Object} jquery added element
      */
     this.addData = function(kind, data) {
         if (kind === 'left') {
             model.push(data);
-            drawTable(kind, data);
+            return drawTable(kind, data);
         } else if (kind === 'right') {
             target.push(data); // data here is a instance of mmf_object
-            drawTable(kind, data);
+            return drawTable(kind, data);
         } else if (kind === 'filter') {
             filter.push(data);
         } else {
@@ -473,7 +478,7 @@ window.App = function (chosenFrame, chosenModel, chosenTarget, chosenFilter) {
                                 .replace('$thumbnail', data.thumbnail);
         }
 
-        $("#inner-"+kind).prepend(model_thumbnail_div);
+        $("#inner-"+kind).append(model_thumbnail_div);
 
         var preview_icon = $("#icons"+thumbnail_index+kind);
 
@@ -525,6 +530,8 @@ window.App = function (chosenFrame, chosenModel, chosenTarget, chosenFilter) {
                 console.error('unknown kind parameter');
             }
         }
+
+        return preview_icon;
     }
 
     /**
@@ -649,7 +656,7 @@ window.App = function (chosenFrame, chosenModel, chosenTarget, chosenFilter) {
 
         setTimeout(function (){
             if (l_info_text.text() === "Downloading Complete")
-                l_info_text.text("Select");
+                l_info_text.text("or Select");
         }, 1500);
     };
 

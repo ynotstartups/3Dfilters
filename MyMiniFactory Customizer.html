@@ -40,11 +40,8 @@
 
 <link href="./MyMiniFactory Customizer_files/styles.css" rel="stylesheet" type="text/css">
 <link href="./MyMiniFactory Customizer_files/perfect-scrollbar.min.css" rel="stylesheet" type="text/css">
-
-
 <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
-
-
+<link href="./css/index.css" rel="stylesheet" type="text/css">
 
 <script>
     "use strict";
@@ -84,14 +81,13 @@
     });
 
     window.addEventListener("drop", function (e) {
+        console.log("drop");
         e.preventDefault();
-        document.querySelector("#dropzone").style.visibility = "hidden";
-        document.querySelector("#dropzone").style.opacity = 0;
-        document.querySelector("#textnode").style.fontSize = "42px";
+        // document.querySelector("#dropzone").style.visibility = "hidden";
+        // document.querySelector("#dropzone").style.opacity = 0;
+        // document.querySelector("#textnode").style.fontSize = "42px";
         if(e.dataTransfer.files.length == 1)
         {
-            document.querySelector("#text").innerHTML =
-                "<b>File selected:</b><br>" + e.dataTransfer.files[0].name;
             SDFGen_worker.postMessage({blob: e.dataTransfer.files[0]})
         }
     });
@@ -108,9 +104,6 @@
 
     const SDFGen_worker = new Worker("./MyMiniFactory Customizer_files/SDFGen/worker.js");
     SDFGen_worker.onmessage = function(e) {
-        console.log("worker on message", e);
-        console.log("TODO: addData(left");
-        console.log(e.data);
         const data = e.data;
 
         /* original data
@@ -126,7 +119,9 @@
         // HACK made the data into an object
         data.thumbnail = "/images/customizer/model01.png";
         data.model = data;
-        controller.addData("left", data);
+        const jquery_element = controller.addData("left", data);
+        jquery_element.click();
+        controller.update_scroll_left_position();
     }
     SDFGen_worker.onerror = function(e) {
         console.log(e);
@@ -173,10 +168,10 @@
         ];
 
         var filter_data = [
+            {name: 'morphing', display_name: 'Morphing'},
             {name: 'twist', display_name: 'Twist'},
             {name: 'minecraft', display_name: 'Voxels'},
             {name: 'lowpoly', display_name: 'LowPoly'},
-            {name: 'morphing', display_name: 'Morphing'},
             {name: 'morphing_and_minecraft', display_name: 'MorphingVoxels'}
         ];
 
@@ -255,132 +250,122 @@
         </div>
     </div>
 </script>
+
 <body class="indexbody f-topbar-fixed">
-    <div style="visibility:hidden; opacity:0" id="dropzone">
-        <div id="textnode">Drop anywhere!</div>
-    </div>
-    <div id=text>Drag a file anywhere</div>
-
-    <section class="main-section">
-
-      
-      <div id="main">
-        <img src="./MyMiniFactory Customizer_files/loading.gif" style="display:none; position: fixed; left: 50%; top: 50%; z-index: 999;margin-left: -115px;margin-top: -100px;" id="everypageloader">
         <div id="customizer_container">
-                        <!-- Filters bar -->
-    <div id="shadow01"></div>
-    <div id="filters_container">
-        <div id="customizer_name">
-            3D Filters: edit objects in 1 click
-        </div>
-        <div id="filters">
-            <div class="filter cant_select_text">
-                <div style="margin-left: 9px; width: 110px; height: 50px; font-size: 16.6667px; font-weight: normal;"><span>Twist</span></div>
-            </div>
-
-            <div class="filter cant_select_text">
-                <div style="margin-left: 0px; width: 128px; height: 68px; font-size: 19.1549px; font-weight: bold;"><span>Voxels</span></div>
-            </div>
-
-            <div class="filter cant_select_text">
-                <div style="margin-left: 9px; width: 110px; height: 50px; font-size: 16.6667px; font-weight: normal;"><span>LowPoly</span></div>
-            </div>
-
-            <div class="filter cant_select_text">
-                <div style="margin-left: 9px; width: 110px; height: 50px; font-size: 16.6667px; font-weight: normal;"><span>Morphing</span></div>
-            </div>
-
-            <div class="filter cant_select_text" style="line-height: 16px;">
-                <div style="margin-left: 9px; width: 110px; height: 50px; font-size: 16.6667px; font-weight: normal;"><span>Morphing<br>&amp; Voxels</span></div>
-            </div>
-
-        </div>
-    </div>
-    <div id="shadow02">
-        <div id="arrow" style="margin-left: 616.625px;"></div>
-    </div>
-
-    <div id="content">
-        <form class="reveal-modal" id="upload_form" data-reveal="">             <div id="form_header">
-                <div id="upload_text" class="cant_select_text"><h3>Edit object informations</h3></div>
-                <div><a class="close-reveal-modal">×</a></div>
-            </div>
-            <hr>
-            <fieldset>                <label>Name</label>
-                <input type="text" name="name" value="deva-dragon-muntean-head filtered">
-                <label>Description</label>
-                <input type="text" name="description" value="This file is generated by MyMiniFactory Filter App. Check it out https://www.myminifactory.com/object/3dfilters?frame=0&amp;model=33863&amp;target=vertical_ellipsoid&amp;filter=Voxels">
-                <label>Tags</label>
-                <input type="text" name="tags" value="filter">
-                <div id="upload_block">
-                    <div id="upload_in_progress"><p> </p></div>
-                    <div id="upload_progress" style="width: 0%;"></div><br>
+            <!-- Filters bar -->
+            <div id="shadow01"></div>
+            <div id="filters_container">
+                <div id="customizer_name">
+                    3D Filters: edit objects in 1 click
                 </div>
-                <div style="display: block; margin: auto; text-align: center;"><input type="button" value="CONFIRM" id="upload_done" style="width: 26%; opacity: 1;"><br></div>
-                            </fieldset>
-        </form>
+                <div id="filters">
+
+                    <div class="filter cant_select_text">
+                        <div style="margin-left: 9px; width: 110px; height: 50px; font-size: 16.6667px; font-weight: normal;"><span>Morphing</span></div>
+                    </div>
+
+                    <div class="filter cant_select_text">
+                        <div style="margin-left: 9px; width: 110px; height: 50px; font-size: 16.6667px; font-weight: normal;"><span>Twist</span></div>
+                    </div>
+
+                    <div class="filter cant_select_text">
+                        <div style="margin-left: 0px; width: 128px; height: 68px; font-size: 19.1549px; font-weight: bold;"><span>Voxels</span></div>
+                    </div>
+
+                    <div class="filter cant_select_text">
+                        <div style="margin-left: 9px; width: 110px; height: 50px; font-size: 16.6667px; font-weight: normal;"><span>LowPoly</span></div>
+                    </div>
+
+                    <div class="filter cant_select_text" style="line-height: 16px;">
+                        <div style="margin-left: 9px; width: 110px; height: 50px; font-size: 16.6667px; font-weight: normal;"><span>Morphing<br>&amp; Voxels</span></div>
+                    </div>
+
+                </div>
+            </div>
+            <div id="shadow02">
+                <div id="arrow" style="margin-left: 616.625px;"></div>
+            </div>
+
+            <div id="content">
+                <form class="reveal-modal" id="upload_form" data-reveal="">             <div id="form_header">
+                        <div id="upload_text" class="cant_select_text"><h3>Edit object informations</h3></div>
+                        <div><a class="close-reveal-modal">×</a></div>
+                    </div>
+                    <hr>
+                    <fieldset>                <label>Name</label>
+                        <input type="text" name="name" value="deva-dragon-muntean-head filtered">
+                        <label>Description</label>
+                        <input type="text" name="description" value="This file is generated by MyMiniFactory Filter App. Check it out https://www.myminifactory.com/object/3dfilters?frame=0&amp;model=33863&amp;target=vertical_ellipsoid&amp;filter=Voxels">
+                        <label>Tags</label>
+                        <input type="text" name="tags" value="filter">
+                        <div id="upload_block">
+                            <div id="upload_in_progress"><p> </p></div>
+                            <div id="upload_progress" style="width: 0%;"></div><br>
+                        </div>
+                        <div style="display: block; margin: auto; text-align: center;"><input type="button" value="CONFIRM" id="upload_done" style="width: 26%; opacity: 1;"><br></div>
+                    </fieldset>
+                </form>
                 <div id="container" style="max-width: 1350px;">
 
-            <!-- Screen number 01 -->
-            <div class="screen" style="">
-                <div id="customizer_right" style="width: 0px; display: none;">
+                    <!-- Screen number 01 -->
+                    <div class="screen" style="">
+                        <div id="customizer_right" style="width: 0px; display: none;">
 
-                    <div style="margin:16px 0 10px 15px;" class="cant_select_text">Target</div>
+                            <div style="margin:16px 0 10px 15px;" class="cant_select_text">Target</div>
 
-                    <div class="view" style="background-image: url(&quot;/images/customizer/model05.png?v14&quot;);"></div>
-                    <div class="line"></div>
+                            <div class="view" style="background-image: url(&quot;/images/customizer/model05.png?v14&quot;);"></div>
+                            <div class="line"></div>
 
-                    <div style="margin:16px 0 5px 15px;" class="cant_select_text">Select</div>
+                            <div style="margin:16px 0 5px 15px;" class="cant_select_text">Select</div>
 
-                    <!-- right scroll area -->
-                    <div id="scroll-right" class="ps-container ps-theme-default" data-ps-id="858c9a2c-8e62-83e7-0083-e4824e919c0f">
-                        <div id="inner-right"></div>
-                    <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 0px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></div>
-                    <!-- right scroll area -->
+                            <!-- right scroll area -->
+                            <div id="scroll-right" class="ps-container ps-theme-default" data-ps-id="858c9a2c-8e62-83e7-0083-e4824e919c0f">
+                                <div id="inner-right"></div>
+                                <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 0px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></div>
+                            <!-- right scroll area -->
 
+                        </div>
+
+                        <div id="customizer_left" style="width: 201px;">
+
+                            <div style="margin:16px 0 10px 15px;" class="cant_select_text">Model</div>
+
+                            <div class="view" style="background-image: url(&quot;https://www.myminifactory.net/assets/object-assets/58ff4a8f4709d/images/brussels-the-smurfs-pierre-culliford.jpg&quot;);"></div>
+                            <div class="line"></div>
+
+                            <div style="text-align: center;margin: 10px 5px 10px 5px;height:100px;line-height:100px;border-radius:5px;" id="DragDrop">Drag&Drop your STL here</div>
+
+                            <div style="margin:16px 0 5px 15px;" class="cant_select_text" id="l_info_text">or Select</div>
+
+                            <!-- left scroll area -->
+                            <div id="scroll-left" class="ps-container ps-theme-default ps-active-y" data-ps-id="3065ad7e-20f0-4852-19ec-c9b039321e37">
+                                <div id="inner-left"></div>
+
+                                <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: -1375px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 1375px; right: 0px; height: 330px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 114px; height: 27px;"></div></div></div>
+                            <!-- left scroll area -->
+
+                        </div>
+
+                        <div id="customizer_middle">
+
+                            <div style="margin:16px 0 10px 20px;"> <span id="selected"><br></span></div>
+
+                            <div id="scenes_holder" style="height: 550px; width: 1081px;">
+                                <canvas id="canvas" width="960" height="440" style="width: 1200px; height: 550px;"></canvas>
+                            </div>
+
+                            <div class="bottom_div" style="float:left; width:100%; height:93px;">
+                                <!-- <div id="publish" onclick="controller.model().upload_file();">PUBLISH</div> -->
+                                <div class="mid_button cant_select_text" id="left_mid_button" onclick="controller.download_to_local();"><div class="mid_button_text" id="download">DOWNLOAD</div></div>
+                                <div class="mid_button cant_select_text" id="right_mid_button" onclick="controller.init_upload_progress();"><a href="https://www.myminifactory.com/object/3dfilters?frame=0&amp;model=33863&amp;target=vertical_ellipsoid&amp;filter=Voxels#" class="mid_button_text" id="publish">PUBLISH</a></div>
+                            </div>
+                        </div>
+                        <div class="frame" id="frame0" style="background-image: url(&quot;/images/customizer/border.png?v14&quot;); left: 346.625px; display: initial; top: 270px; height: 255.25px; width: 255.25px; line-height: 242.75px;"><div></div></div><div class="frame" id="frame1" style="background-image: url(&quot;/images/customizer/frame.png?v14&quot;); display: initial; line-height: 242.75px; left: 621.875px; top: 270px; height: 255.25px; width: 255.25px;"><div></div></div><div class="frame" id="frame2" style="background-image: url(&quot;/images/customizer/frame.png?v14&quot;); display: initial; line-height: 242.75px; left: 897.125px; top: 270px; height: 255.25px; width: 255.25px;"><div></div></div><div class="frame" id="frame3" style="background-image: url(&quot;/images/customizer/frame.png?v14&quot;); display: initial; line-height: 242.75px; left: 1172.38px; top: 270px; height: 255.25px; width: 255.25px;"><div></div></div><div class="frame" id="frame4" style="background-image: url(&quot;/images/customizer/frame.png?v14&quot;); display: initial; line-height: 242.75px; left: 346.625px; top: 545.25px; height: 255.25px; width: 255.25px;"><div></div></div><div class="frame" id="frame5" style="background-image: url(&quot;/images/customizer/frame.png?v14&quot;); display: initial; line-height: 242.75px; left: 621.875px; top: 545.25px; height: 255.25px; width: 255.25px;"><div></div></div><div class="frame" id="frame6" style="background-image: url(&quot;/images/customizer/frame.png?v14&quot;); display: initial; line-height: 242.75px; left: 897.125px; top: 545.25px; height: 255.25px; width: 255.25px;"><div></div></div><div class="frame" id="frame7" style="background-image: url(&quot;/images/customizer/frame.png?v14&quot;); display: initial; line-height: 242.75px; left: 1172.38px; top: 545.25px; height: 255.25px; width: 255.25px;"><div></div></div></div>
                 </div>
-                <div id="customizer_left" style="width: 201px;">
-
-                    <div style="margin:16px 0 10px 15px;" class="cant_select_text">Model</div>
-
-                    <div class="view" style="background-image: url(&quot;https://www.myminifactory.net/assets/object-assets/58ff4a8f4709d/images/brussels-the-smurfs-pierre-culliford.jpg&quot;);"></div>
-                    <div class="line"></div>
-
-                    <div style="margin:16px 0 5px 15px;" class="cant_select_text" id="l_info_text">Select</div>
-
-                    <!-- left scroll area -->
-                    <div id="scroll-left" class="ps-container ps-theme-default ps-active-y" data-ps-id="3065ad7e-20f0-4852-19ec-c9b039321e37">
-                        <div id="inner-left"></div>
-
-                    <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: -1375px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 1375px; right: 0px; height: 330px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 114px; height: 27px;"></div></div></div>
-                    <!-- left scroll area -->
-
-                </div>
-
-                <div id="customizer_middle">
-
-                    <div style="margin:16px 0 10px 20px;"> <span id="selected"><br></span></div>
-
-                    <div id="scenes_holder" style="height: 550px; width: 1081px;">
-                        <canvas id="canvas" width="960" height="440" style="width: 1200px; height: 550px;"></canvas>
-                    </div>
-
-                    <div class="bottom_div" style="float:left; width:100%; height:93px;">
-                        <!-- <div id="publish" onclick="controller.model().upload_file();">PUBLISH</div> -->
-                        <div class="mid_button cant_select_text" id="left_mid_button" onclick="controller.download_to_local();"><div class="mid_button_text" id="download">DOWNLOAD</div></div>
-                        <div class="mid_button cant_select_text" id="right_mid_button" onclick="controller.init_upload_progress();"><a href="https://www.myminifactory.com/object/3dfilters?frame=0&amp;model=33863&amp;target=vertical_ellipsoid&amp;filter=Voxels#" class="mid_button_text" id="publish">PUBLISH</a></div>
-                    </div>
-                </div>
-            <div class="frame" id="frame0" style="background-image: url(&quot;/images/customizer/border.png?v14&quot;); left: 346.625px; display: initial; top: 270px; height: 255.25px; width: 255.25px; line-height: 242.75px;"><div></div></div><div class="frame" id="frame1" style="background-image: url(&quot;/images/customizer/frame.png?v14&quot;); display: initial; line-height: 242.75px; left: 621.875px; top: 270px; height: 255.25px; width: 255.25px;"><div></div></div><div class="frame" id="frame2" style="background-image: url(&quot;/images/customizer/frame.png?v14&quot;); display: initial; line-height: 242.75px; left: 897.125px; top: 270px; height: 255.25px; width: 255.25px;"><div></div></div><div class="frame" id="frame3" style="background-image: url(&quot;/images/customizer/frame.png?v14&quot;); display: initial; line-height: 242.75px; left: 1172.38px; top: 270px; height: 255.25px; width: 255.25px;"><div></div></div><div class="frame" id="frame4" style="background-image: url(&quot;/images/customizer/frame.png?v14&quot;); display: initial; line-height: 242.75px; left: 346.625px; top: 545.25px; height: 255.25px; width: 255.25px;"><div></div></div><div class="frame" id="frame5" style="background-image: url(&quot;/images/customizer/frame.png?v14&quot;); display: initial; line-height: 242.75px; left: 621.875px; top: 545.25px; height: 255.25px; width: 255.25px;"><div></div></div><div class="frame" id="frame6" style="background-image: url(&quot;/images/customizer/frame.png?v14&quot;); display: initial; line-height: 242.75px; left: 897.125px; top: 545.25px; height: 255.25px; width: 255.25px;"><div></div></div><div class="frame" id="frame7" style="background-image: url(&quot;/images/customizer/frame.png?v14&quot;); display: initial; line-height: 242.75px; left: 1172.38px; top: 545.25px; height: 255.25px; width: 255.25px;"><div></div></div></div>
+            </div>
         </div>
     </div>
-</div>
-      </div>
-    </section>
-
-    <a class="exit-off-canvas"></a>
-
-  </div>
 </div>
 
 
