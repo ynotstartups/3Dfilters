@@ -45,12 +45,14 @@ window.App = function (chosenFrame, chosenModel, chosenTarget, chosenFilter) {
     var canvas = document.getElementById("canvas");
     var scenes_controller = new ScenesController(canvas);
 
-    var is_login;
-    if (accessToken === "") {
+    var is_login = false;
+    /*
+    if (accessToken === undefined || accessToken==="") {
         is_login =  false;
     } else {
         is_login = true;
     }
+    */
 
     var model = []; // store mmf_objects
     var frame = []; // store the query string of each frame
