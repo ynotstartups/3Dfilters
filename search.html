@@ -23,8 +23,8 @@
             img.id = obj.file_id;
             img.onclick = ( _ => function() {
                 const file_id = img.id;
-                console.log("click!", file_id)
-                post_file_id(file_id)
+                post_file_id(file_id);
+                window.close();
             })();
             image_div.appendChild(img);
         })
@@ -38,7 +38,6 @@
 
     function post_file_id(file_id) {
         window.opener.postMessage(file_id, "*");
-        console.log(window.opener);
     }
 
 </script>
