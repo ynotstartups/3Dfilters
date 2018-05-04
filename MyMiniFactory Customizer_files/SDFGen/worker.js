@@ -16,17 +16,17 @@ let last_file_name = undefined;
 function SDFGen(file, padding, dx) {
     console.log("Doing SDFGen")
 
-    var filename = file.name;
+    var filename = file.name ? file.name : "tiger.stl";
 
-    // if simplify on the same file, don't even read the file
+    /*
     if (filename === last_file_name) {
         console.log("skipping load and create data file");
-        simplify(filename, percentage, filename);
         return;
     } else { // remove last file in memory
         if (last_file_name !== undefined)
             Module.FS_unlink(last_file_name);
     }
+    */
 
     last_file_name = filename;
     var fr = new FileReader();

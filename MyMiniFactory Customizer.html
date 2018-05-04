@@ -36,8 +36,9 @@
 <script type="module">
     "use strict";
 
-    import {search} from './MyMiniFactory Customizer_files/mmf_api.jsm';
+    import {search, download} from './MyMiniFactory Customizer_files/mmf_api.jsm';
     window.search = search;
+    window.download = download;
 
     console.log(search);
 </script>
@@ -86,7 +87,8 @@
         // document.querySelector("#textnode").style.fontSize = "42px";
         if(e.dataTransfer.files.length == 1)
         {
-            SDFGen_worker.postMessage({blob: e.dataTransfer.files[0]})
+            // SDFGen_worker.postMessage({blob: e.dataTransfer.files[0]})
+            postBlobToSDFGenWorker(e.dataTransfer.files[0]);
         }
     });
 
@@ -124,6 +126,11 @@
         console.log(
             'ERROR: Line ', e.lineno, ' in ', e.filename, ': ', e.message
         );
+    }
+
+    function postBlobToSDFGenWorker(blob) {
+        console.log("post blob to sdfgen worker")
+        SDFGen_worker.postMessage({ blob });
     }
 
     window.onload = function() {
