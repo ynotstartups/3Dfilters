@@ -28,6 +28,9 @@ function SDFGen(file, padding, dx) {
     }
     */
 
+    if (last_file_name !== undefined)
+        Module.FS_unlink(last_file_name);
+
     last_file_name = filename;
     var fr = new FileReader();
     fr.readAsArrayBuffer(file);

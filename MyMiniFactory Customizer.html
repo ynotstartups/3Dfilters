@@ -44,6 +44,19 @@
 </script>
 <script>
 
+    function pop_up(q) {
+        const w = window.open("./search.html","seach on MyMiniFactory","toolbar=no,location=no,status=no,menubar=no,scrollbars=no,width=600,height=400,resizable,scrollbars")
+        search(q, function(res) {
+            w.postMessage(res, "*"); // TODO: try to understand second param
+        });
+    }
+
+    window.addEventListener("message", receive_message, false);
+
+    function receive_message(m) {
+        window.download(parseInt(m.data), postBlobToSDFGenWorker);
+    }
+
     var lastTarget = null;
 
     function isFile(evt) {

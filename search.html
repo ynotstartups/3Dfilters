@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!-- saved from url=(0106)https://www.myminifactory.com/object/3dfilters?frame=0&model=33863&target=vertical_ellipsoid&filter=Voxels -->
+<html lang="en" class="">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Search In MyMiniFactory</title>
+        <meta name="description" content="Search in MyMiniFactory">
+    </head>
+    <body>
+        <p>Click on Thumbnail to select</p>
+        <div id="image_div"></div>
+    </body>
+</html>
+
+<script>
+    // array of these {filename, download_url, file_id}
+    function parse_put(data) {
+        data.forEach(obj => {
+            // document.write(obj.filename + "<br>")
+            const image_div = document.getElementById("image_div");
+            const img = document.createElement("img");
+            img.src = obj.thumbnail_url;
+            img.id = obj.file_id;
+            img.onclick = ( _ => function() {
+                const file_id = img.id;
+                console.log("click!", file_id)
+                post_file_id(file_id)
+            })();
+            image_div.appendChild(img);
+        })
+    }
+
+    window.addEventListener("message", receive_message, false);
+
+    function receive_message(m) {
+        parse_put(m.data);
+    }
+
+    function post_file_id(file_id) {
+        window.opener.postMessage(file_id, "*");
+        console.log(window.opener);
+    }
+
+</script>

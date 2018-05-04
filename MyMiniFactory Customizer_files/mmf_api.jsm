@@ -24,6 +24,7 @@ function filter_search_result(q_result) {
             filename:data.filename,
             download_url:data.download_url,
             file_id:data.id,
+            thumbnail_url:data.thumbnail_url
             // object_id: object_id
         };
         if (files.total_count === 1) {
@@ -31,9 +32,8 @@ function filter_search_result(q_result) {
             filter_res.push(subset);
             results.push(subset);
         }
-    console.log(filter_res);
     });
-    return q_result;
+    return filter_res;
 }
 
 /**
